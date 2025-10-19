@@ -75,19 +75,19 @@ class QdrantVectorDBStorage(BaseVectorStorage):
         # Check for QDRANT_WORKSPACE environment variable first (higher priority)
         # This allows administrators to force a specific workspace for all Qdrant storage instances
         qdrant_workspace = os.environ.get("QDRANT_WORKSPACE")
-        if qdrant_workspace and qdrant_workspace.strip():
-            # Use environment variable value, overriding the passed workspace parameter
-            effective_workspace = qdrant_workspace.strip()
-            logger.info(
-                f"Using QDRANT_WORKSPACE environment variable: '{effective_workspace}' (overriding passed workspace: '{self.workspace}')"
-            )
-        else:
+        # if qdrant_workspace and qdrant_workspace.strip():
+        #     # Use environment variable value, overriding the passed workspace parameter
+        #     effective_workspace = qdrant_workspace.strip()
+        #     logger.info(
+        #         f"Using QDRANT_WORKSPACE environment variable: '{effective_workspace}' (overriding passed workspace: '{self.workspace}')"
+        #     )
+        # else:
             # Use the workspace parameter passed during initialization
-            effective_workspace = self.workspace
-            if effective_workspace:
-                logger.debug(
-                    f"Using passed workspace parameter: '{effective_workspace}'"
-                )
+        effective_workspace = self.workspace
+        if effective_workspace:
+            logger.debug(
+                f"Using passed workspace parameter: '{effective_workspace}'"
+            )
 
         # Build final_namespace with workspace prefix for data isolation
         # Keep original namespace unchanged for type detection logic

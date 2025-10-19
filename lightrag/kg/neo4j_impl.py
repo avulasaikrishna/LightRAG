@@ -50,13 +50,13 @@ logging.getLogger("neo4j").setLevel(logging.ERROR)
 class Neo4JStorage(BaseGraphStorage):
     def __init__(self, namespace, global_config, embedding_func, workspace=None):
         # Read env and override the arg if present
-        neo4j_workspace = os.environ.get("NEO4J_WORKSPACE")
-        if neo4j_workspace and neo4j_workspace.strip():
-            workspace = neo4j_workspace
+        # neo4j_workspace = os.environ.get("NEO4J_WORKSPACE")
+        # if neo4j_workspace and neo4j_workspace.strip():
+        #     workspace = neo4j_workspace
 
-        # Default to 'base' when both arg and env are empty
-        if not workspace or not str(workspace).strip():
-            workspace = "base"
+        # # Default to 'base' when both arg and env are empty
+        # if not workspace or not str(workspace).strip():
+        #     workspace = "base"
 
         super().__init__(
             namespace=namespace,
@@ -121,9 +121,8 @@ class Neo4JStorage(BaseGraphStorage):
                 "NEO4J_KEEP_ALIVE",
                 config.get("neo4j", "keep_alive", fallback="true"),
             ).lower() in ("true", "1", "yes", "on")
-            DATABASE = os.environ.get(
-                "NEO4J_DATABASE", re.sub(r"[^a-zA-Z0-9-]", "-", self.namespace)
-            )
+            DATABASE = self.workspace
+            logger.info(f"Using Neo4j database: {DATABASE}")
             """The default value approach for the DATABASE is only intended to maintain compatibility with legacy practices."""
 
             self._driver: AsyncDriver = AsyncGraphDatabase.driver(

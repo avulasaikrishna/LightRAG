@@ -2178,7 +2178,7 @@ async def kg_query(
         history_context = get_conversation_turns(
             query_param.conversation_history, query_param.history_turns
         )
-
+    logger.info(f"Conversation history for query: {history_context}")
     # Build system prompt
     user_prompt = (
         query_param.user_prompt
@@ -2201,7 +2201,7 @@ async def kg_query(
     logger.debug(
         f"[kg_query] Sending to LLM: {len_of_prompts:,} tokens (Query: {len(tokenizer.encode(query))}, System: {len(tokenizer.encode(sys_prompt))})"
     )
-
+    logger.info(f"Final query to LLM: {query}")
     response = await use_model_func(
         query,
         system_prompt=sys_prompt,
@@ -2992,6 +2992,8 @@ async def _build_query_context(
 ```
 
 """
+    logger.info("Completed building query context.")
+    logger.info(f"Query context: {result}")
     return result
 
 
